@@ -1,23 +1,18 @@
 package com.example.grant.sioscraper;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-import android.os.Handler.Callback;
-import android.os.Handler;
-
-
-import java.util.logging.Logger;
 
 
 public class SIOScraper extends ActionBarActivity
@@ -28,6 +23,7 @@ public class SIOScraper extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sioscraper);
 
+        //Callback to display the scraped HTML
         final Callback callback = new Callback() {
             public boolean handleMessage(Message msg)
             {
@@ -38,7 +34,6 @@ public class SIOScraper extends ActionBarActivity
 
         final Handler handler = new Handler(callback);
 
-        /* An instance of this class will be registered as a JavaScript interface */
         class MyJavaScriptInterface
         {
             Context ctx;
@@ -58,13 +53,12 @@ public class SIOScraper extends ActionBarActivity
             }
         }
 
-        final WebView browser = (WebView)findViewById(R.id.browser);
+        final WebView browser = (WebView) findViewById(R.id.browser);
         browser.getSettings().setJavaScriptEnabled(true);
 
         /* Register a new JavaScript interface called HTMLOUT */
         browser.addJavascriptInterface(new MyJavaScriptInterface(this), "HTMLOUT");
 
-        /* WebViewClient must be set BEFORE calling loadUrl! */
         browser.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
